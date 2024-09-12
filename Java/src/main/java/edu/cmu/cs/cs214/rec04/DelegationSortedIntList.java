@@ -12,7 +12,7 @@ package edu.cmu.cs.cs214.rec04;
 
 public class DelegationSortedIntList implements IntegerList{
     // Write your implementation below with API documentation
-    private final SortedIntList list;
+    private final SortedIntList list = new SortedIntList();
     private int addCount;
 
     /**
@@ -22,17 +22,17 @@ public class DelegationSortedIntList implements IntegerList{
      * @return The newly created DelegationSortedIntList object
      */
 
-    public DelegationSortedIntList(SortedIntList list) {
-        this.list = list;
+    public DelegationSortedIntList() {
         addCount = 0;
     }
     /**
-     * Adds the specified int to the list.
+     * Adds the specified int to the list and increases the count
+     * attempted insertions by 1
      *
      * @param num an integer to be added to the list
      * @return true if the list is changed as a result of the call
      */
-
+    
     public boolean add(int num) {
         boolean addSuccessful = this.list.add(num);
         addCount += 1;
@@ -41,13 +41,16 @@ public class DelegationSortedIntList implements IntegerList{
 
     /**
      * Adds all of the elements of the IntegerList to the list.
-     *
+     * Calls add() on each element of list with each add() call
+     * increasing the count of attempted insertions by 1
+     *                                          
      * @param list IntegerList containing elements to be added to the list
      * @return true if the list changed as a result of the call
      */
     
     public boolean addAll(IntegerList list) {
         boolean addSuccessful = this.list.addAll(list);
+        addCount += list.size();
         return addSuccessful;
     }
 
@@ -100,6 +103,12 @@ public class DelegationSortedIntList implements IntegerList{
         return this.list.size();
     }
 
+    /**
+     * Gets the total number of elements added to the list so far 
+     *                                          
+     * @return An integer representing the number of attempted insertions
+     * so far
+     */
     public int getTotalAdded() {
         return this.addCount;
     }
